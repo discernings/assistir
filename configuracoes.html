@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120E0C">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Configurações da conta.">
+<title>Configurações — Xyz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; background: none; }
+
+  :root{
+    --ink: #120E0C;
+    --ink-line: rgba(245,238,228,0.12);
+    --paper: #F5EEE4;
+    --paper-dim: #B8AA9C;
+    --paper-faint: #9C8F80;
+    --marquee: #E7A33E;
+    --marquee-press: #D3922E;
+  }
+
+  body{ background:#000; overflow-x:hidden; }
+  .app{
+    max-width:520px; margin:0 auto; min-height:100vh;
+    background:var(--ink); color:var(--paper);
+    font-family:'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (min-width:560px){
+    body{ background:#050403; }
+    .app{ border-left:1px solid rgba(245,238,228,0.06); border-right:1px solid rgba(245,238,228,0.06); box-shadow:0 0 70px rgba(0,0,0,0.55); }
+  }
+
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; gap:14px;
+    padding: calc(14px + env(safe-area-inset-top,0px)) 20px 14px;
+    background:rgba(18,14,12,0.85);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--ink-line);
+  }
+  .back-btn{
+    width:38px; height:38px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; background:rgba(245,238,228,0.06);
+    color:var(--paper); text-decoration:none;
+  }
+  .back-btn svg{ width:20px; height:20px; }
+  .back-btn:active{ background:rgba(245,238,228,0.14); }
+  .nav-title{ font-family:'Fraunces', Georgia, serif; font-weight:700; font-size:20px; }
+
+  .catalog-state{ padding:60px 24px; text-align:center; }
+  .catalog-state p{ color:var(--paper-dim); font-size:14.5px; line-height:1.6; margin:0 0 20px; max-width:38ch; margin-left:auto; margin-right:auto; }
+
+  .settings-body{ padding:20px; }
+
+  .settings-group{
+    background:rgba(245,238,228,0.05);
+    border:1px solid var(--ink-line);
+    border-radius:14px;
+    margin-bottom:20px;
+    overflow:hidden;
+  }
+  .settings-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    width:100%; border:none; background:none; text-align:left;
+    padding:16px; color:var(--paper); font-family:inherit; cursor:pointer;
+    text-decoration:none;
+  }
+  .settings-row + .settings-row{ border-top:1px solid var(--ink-line); }
+  .settings-row-label{ font-size:15px; }
+  .settings-row-value{ font-size:13.5px; color:var(--paper-dim); display:flex; align-items:center; gap:6px; }
+  .settings-row svg.chevron{ width:18px; height:18px; color:var(--paper-faint); flex:0 0 auto; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; border:none; border-radius:999px; padding:13px 22px;
+    font-weight:600; font-size:14.5px; font-family:inherit;
+    cursor:pointer; text-decoration:none;
+  }
+  .btn-primary{ background:var(--marquee); color:#1C1207; }
+  .btn-primary:active{ background:var(--marquee-press); }
+
+  .btn-text{
+    display:block; width:100%; margin-top:20px; padding:10px;
+    background:transparent; border:none; color:var(--paper-faint);
+    font-size:13.5px; font-family:inherit; cursor:pointer; text-align:center;
+    transition:color .15s ease;
+  }
+  .btn-text:active{ color:var(--paper-dim); }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--marquee); outline-offset:2px; border-radius:6px; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="nav">
+    <a class="back-btn" href="index.html" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <span class="nav-title">Configurações</span>
+  </header>
+
+  <div id="loading-state" class="catalog-state"><p>Carregando…</p></div>
+
+  <div id="need-login-state" class="catalog-state" hidden>
+    <p>Entre na sua conta para ver as configurações.</p>
+    <a class="btn btn-primary" href="login.html?redirect=configuracoes.html">Entrar</a>
+  </div>
+
+  <main id="content" hidden>
+    <div class="settings-body">
+      <div class="settings-group">
+        <a class="settings-row" href="perfil.html">
+          <span class="settings-row-label">Editar perfil</span>
+          <span class="settings-row-value">
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+          </span>
+        </a>
+        <div class="settings-row">
+          <span class="settings-row-label">E-mail</span>
+          <span class="settings-row-value" id="email-display"></span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Plano</span>
+          <span class="settings-row-value" id="plan-display"></span>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <a class="settings-row" href="premium.html" id="premium-row">
+          <span class="settings-row-label" id="premium-row-label">Assinar Premium</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </a>
+        <a class="settings-row" href="baixados.html">
+          <span class="settings-row-label">Meus salvos</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </a>
+      </div>
+
+      <button id="logout-btn" type="button" class="btn-text">Sair da conta</button>
+    </div>
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  const SUPABASE_URL = 'https://uecyrwxajbdcrhnijlxv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_OUHFk8LAvyd2lfrmRkcK2A_EM6HD869';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const els = {
+    loadingState: document.getElementById('loading-state'),
+    needLoginState: document.getElementById('need-login-state'),
+    content: document.getElementById('content'),
+    emailDisplay: document.getElementById('email-display'),
+    planDisplay: document.getElementById('plan-display'),
+    premiumRow: document.getElementById('premium-row'),
+    premiumRowLabel: document.getElementById('premium-row-label'),
+    logoutBtn: document.getElementById('logout-btn'),
+  };
+
+  els.logoutBtn.addEventListener('click', function () {
+    if (!window.confirm('Tem certeza que deseja sair da sua conta?')) return;
+    supabase.auth.signOut().then(function () {
+      window.location.href = 'index.html';
+    });
+  });
+
+  supabase.auth.getSession().then(function (sessionRes) {
+    els.loadingState.hidden = true;
+    const session = sessionRes.data.session;
+    if (!session) { els.needLoginState.hidden = false; return; }
+
+    const uid = session.user.id;
+    els.emailDisplay.textContent = session.user.email || '';
+
+    supabase.from('perfis').select('premium').eq('user_id', uid).single().then(function (res) {
+      const souPremium = !!(res.data && res.data.premium === true);
+      els.planDisplay.textContent = souPremium ? 'Premium ✨' : 'Gratuito';
+      if (souPremium) {
+        els.premiumRowLabel.textContent = 'Você é Premium';
+      }
+      els.content.hidden = false;
+    }).catch(function () {
+      els.planDisplay.textContent = 'Gratuito';
+      els.content.hidden = false;
+    });
+  });
+</script>
+</body>
+</html>

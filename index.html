@@ -374,6 +374,13 @@
   .tab span{ font-size:11px; font-weight:500; }
   .tab--active{ color:var(--marquee); }
   a.tab{ text-decoration:none; }
+  .tab-icon-wrap{ position:relative; display:inline-flex; }
+  .tab-crown{
+    position:absolute; top:-8px; right:-9px;
+    width:13px; height:13px;
+    color:var(--marquee);
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,0.6));
+  }
 
   /* ---------- Accessibility ---------- */
   a:focus-visible, button:focus-visible{
@@ -404,10 +411,10 @@
   <header class="nav">
     <span class="brand">Xyz</span>
     <div class="nav-actions">
-      <button class="icon-btn" type="button" aria-label="Buscar">
+      <a class="icon-btn" href="busca.html" aria-label="Buscar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </button>
-      <a class="icon-btn" href="login.html" aria-label="Perfil">
+      </a>
+      <a class="icon-btn" href="perfil.html" aria-label="Perfil">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c0-4.14 3.36-7 7.5-7s7.5 2.86 7.5 7"></path></svg>
       </a>
     </div>
@@ -441,17 +448,20 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"></path><path d="M6 10v9a1 1 0 0 0 1 1h3.5v-6h3v6H17a1 1 0 0 0 1-1v-9"></path></svg>
       <span>Início</span>
     </button>
-    <button class="tab" type="button">
+    <a class="tab" href="busca.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <span>Buscar</span>
-    </button>
-    <button class="tab" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"></path><path d="M7.5 10 12 14.5 16.5 10"></path><path d="M4.5 18.5h15"></path></svg>
+    </a>
+    <a class="tab tab--crowned" href="baixados.html">
+      <span class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"></path><path d="M7.5 10 12 14.5 16.5 10"></path><path d="M4.5 18.5h15"></path></svg>
+        <svg class="tab-crown" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4 3 5-6 5 6 4-3-2 10H5L3 8z"></path></svg>
+      </span>
       <span>Baixados</span>
-    </button>
-    <a class="tab" href="login.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c0-4.14 3.36-7 7.5-7s7.5 2.86 7.5 7"></path></svg>
-      <span>Perfil</span>
+    </a>
+    <a class="tab" href="configuracoes.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      <span>Configurações</span>
     </a>
   </nav>
 

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120E0C">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Edite seu perfil.">
+<title>Perfil — Xyz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; background: none; }
+
+  :root{
+    --ink: #120E0C;
+    --ink-line: rgba(245,238,228,0.12);
+    --paper: #F5EEE4;
+    --paper-dim: #B8AA9C;
+    --paper-faint: #9C8F80;
+    --marquee: #E7A33E;
+    --marquee-press: #D3922E;
+    --danger: #E17389;
+  }
+
+  body{ background:#000; overflow-x:hidden; }
+  .app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (min-width:560px){
+    body{ background:#050403; }
+    .app{ border-left:1px solid rgba(245,238,228,0.06); border-right:1px solid rgba(245,238,228,0.06); box-shadow:0 0 70px rgba(0,0,0,0.55); }
+  }
+
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; gap:14px;
+    padding: calc(14px + env(safe-area-inset-top,0px)) 20px 14px;
+    background:rgba(18,14,12,0.85);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--ink-line);
+  }
+  .back-btn{
+    width:38px; height:38px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; background:rgba(245,238,228,0.06);
+    color:var(--paper); text-decoration:none;
+  }
+  .back-btn svg{ width:20px; height:20px; }
+  .back-btn:active{ background:rgba(245,238,228,0.14); }
+  .nav-title{ font-family:'Fraunces', Georgia, serif; font-weight:700; font-size:20px; }
+
+  .catalog-state{ padding:60px 24px; text-align:center; }
+  .catalog-state p{ color:var(--paper-dim); font-size:14.5px; line-height:1.6; margin:0 0 20px; max-width:38ch; margin-left:auto; margin-right:auto; }
+
+  .avatar-wrap{ display:flex; flex-direction:column; align-items:center; padding:32px 20px 8px; }
+  .avatar-btn{
+    position:relative;
+    width:96px; height:96px;
+    border-radius:50%; border:none; padding:0; overflow:hidden;
+    background:rgba(245,238,228,0.08);
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--paper-faint);
+  }
+  .avatar-img{ width:100%; height:100%; object-fit:cover; }
+  .avatar-placeholder svg{ width:30px; height:30px; }
+  .avatar-edit-icon{
+    position:absolute; bottom:-2px; right:-2px;
+    width:30px; height:30px; border-radius:50%;
+    background:var(--marquee); color:#1C1207;
+    display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--ink);
+  }
+  .avatar-edit-icon svg{ width:14px; height:14px; }
+  .avatar-status{ font-size:12.5px; color:var(--paper-faint); margin:12px 0 0; text-align:center; }
+
+  .detail-body{ padding:24px 20px 40px; }
+  .field{ margin-bottom:18px; }
+  .field-label{ display:block; font-size:13px; color:var(--paper-dim); margin-bottom:6px; }
+  .field input{
+    width:100%; background:rgba(245,238,228,0.06);
+    border:1px solid var(--ink-line); border-radius:10px;
+    padding:13px 14px; font-size:15px; color:var(--paper);
+    font-family:inherit; transition:border-color .15s ease;
+  }
+  .field input:focus{ outline:none; border-color:var(--marquee); }
+  .field-static{ font-size:15px; color:var(--paper); margin:0; padding:13px 0; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; border:none; border-radius:999px; padding:14px 22px;
+    font-weight:600; font-size:15px; font-family:inherit;
+    cursor:pointer; text-decoration:none;
+  }
+  .btn-primary{ background:var(--marquee); color:#1C1207; }
+  .btn-primary:active{ background:var(--marquee-press); }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; }
+
+  .form-error{
+    font-size:13.5px; line-height:1.5; color:var(--danger);
+    background:rgba(225,115,137,0.1); border:1px solid rgba(225,115,137,0.3);
+    border-radius:10px; padding:10px 12px; margin:0 0 16px;
+  }
+  .form-success{
+    font-size:13.5px; color:var(--marquee); margin:0 0 16px;
+  }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--marquee); outline-offset:2px; border-radius:6px; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="nav">
+    <a class="back-btn" href="index.html" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <span class="nav-title">Perfil</span>
+  </header>
+
+  <div id="loading-state" class="catalog-state"><p>Carregando…</p></div>
+
+  <div id="need-login-state" class="catalog-state" hidden>
+    <p>Entre na sua conta para editar seu perfil.</p>
+    <a class="btn btn-primary" href="login.html?redirect=perfil.html">Entrar</a>
+  </div>
+
+  <main id="content" hidden>
+    <div class="avatar-wrap">
+      <button type="button" id="avatar-btn" class="avatar-btn" aria-label="Trocar foto de perfil">
+        <img id="avatar-img" class="avatar-img" alt="" hidden>
+        <span id="avatar-placeholder" class="avatar-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"></path></svg>
+        </span>
+        <span class="avatar-edit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>
+        </span>
+      </button>
+      <input type="file" id="avatar-input" accept="image/*" hidden>
+      <p id="avatar-status" class="avatar-status" hidden></p>
+    </div>
+
+    <div class="detail-body">
+      <form id="profile-form">
+        <div class="field">
+          <label class="field-label" for="nome">Nome</label>
+          <input type="text" id="nome" maxlength="60" placeholder="Seu nome" autocomplete="name">
+        </div>
+        <div class="field">
+          <span class="field-label">E-mail</span>
+          <p class="field-static" id="email-display"></p>
+        </div>
+        <div class="field">
+          <span class="field-label">Plano</span>
+          <p class="field-static" id="plan-display"></p>
+        </div>
+
+        <p id="form-error" class="form-error" hidden></p>
+        <p id="form-success" class="form-success" hidden>Perfil atualizado.</p>
+
+        <button type="submit" id="save-btn" class="btn btn-primary">Salvar</button>
+      </form>
+    </div>
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  const SUPABASE_URL = 'https://uecyrwxajbdcrhnijlxv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_OUHFk8LAvyd2lfrmRkcK2A_EM6HD869';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const els = {
+    loadingState: document.getElementById('loading-state'),
+    needLoginState: document.getElementById('need-login-state'),
+    content: document.getElementById('content'),
+    avatarBtn: document.getElementById('avatar-btn'),
+    avatarInput: document.getElementById('avatar-input'),
+    avatarImg: document.getElementById('avatar-img'),
+    avatarPlaceholder: document.getElementById('avatar-placeholder'),
+    avatarStatus: document.getElementById('avatar-status'),
+    form: document.getElementById('profile-form'),
+    nome: document.getElementById('nome'),
+    emailDisplay: document.getElementById('email-display'),
+    planDisplay: document.getElementById('plan-display'),
+    formError: document.getElementById('form-error'),
+    formSuccess: document.getElementById('form-success'),
+    saveBtn: document.getElementById('save-btn'),
+  };
+
+  let uid = null;
+
+  function mostrarStatusAvatar(msg, sumirDepois) {
+    els.avatarStatus.hidden = false;
+    els.avatarStatus.textContent = msg;
+    if (sumirDepois) {
+      setTimeout(function () { els.avatarStatus.hidden = true; }, 2500);
+    }
+  }
+
+  function aplicarAvatar(url) {
+    els.avatarImg.src = url;
+    els.avatarImg.hidden = false;
+    els.avatarPlaceholder.hidden = true;
+  }
+
+  els.avatarBtn.addEventListener('click', function () { els.avatarInput.click(); });
+
+  els.avatarInput.addEventListener('change', function () {
+    const file = els.avatarInput.files[0];
+    if (!file || !uid) return;
+    if (!file.type.startsWith('image/')) { mostrarStatusAvatar('Escolha um arquivo de imagem.', true); return; }
+    if (file.size > 5 * 1024 * 1024) { mostrarStatusAvatar('Imagem muito grande (máx. 5MB).', true); return; }
+
+    mostrarStatusAvatar('Enviando foto…', false);
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+    const path = uid + '/avatar.' + ext;
+
+    supabase.storage.from('avatars').upload(path, file, { upsert: true }).then(function (res) {
+      if (res.error) { mostrarStatusAvatar('Não foi possível enviar a imagem.', true); return; }
+      const pub = supabase.storage.from('avatars').getPublicUrl(path);
+      const url = pub.data.publicUrl + '?t=' + Date.now();
+      return supabase.from('perfis').update({ avatar_url: url }).eq('user_id', uid).then(function (res2) {
+        if (res2.error) { mostrarStatusAvatar('Foto enviada, mas não salvou. Tente de novo.', true); return; }
+        aplicarAvatar(url);
+        mostrarStatusAvatar('Foto atualizada.', true);
+      });
+    });
+  });
+
+  els.form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    els.formError.hidden = true;
+    els.formSuccess.hidden = true;
+    els.saveBtn.disabled = true;
+    const textoOriginal = els.saveBtn.textContent;
+    els.saveBtn.textContent = 'Salvando…';
+
+    supabase.from('perfis').update({ nome: els.nome.value.trim() }).eq('user_id', uid).then(function (res) {
+      els.saveBtn.disabled = false;
+      els.saveBtn.textContent = textoOriginal;
+      if (res.error) {
+        console.error(res.error);
+        els.formError.textContent = 'Não foi possível salvar agora. Tente novamente.';
+        els.formError.hidden = false;
+        return;
+      }
+      els.formSuccess.hidden = false;
+    });
+  });
+
+  supabase.auth.getSession().then(function (sessionRes) {
+    els.loadingState.hidden = true;
+    const session = sessionRes.data.session;
+    if (!session) { els.needLoginState.hidden = false; return; }
+
+    uid = session.user.id;
+    els.emailDisplay.textContent = session.user.email || '';
+
+    supabase.from('perfis').select('nome, avatar_url, premium').eq('user_id', uid).single().then(function (res) {
+      const perfil = res.data || {};
+      els.nome.value = perfil.nome || '';
+      if (perfil.avatar_url) { aplicarAvatar(perfil.avatar_url); }
+      els.planDisplay.textContent = perfil.premium === true ? 'Premium ✨' : 'Gratuito';
+      els.content.hidden = false;
+    }).catch(function () {
+      els.planDisplay.textContent = 'Gratuito';
+      els.content.hidden = false;
+    });
+  });
+</script>
+</body>
+</html>

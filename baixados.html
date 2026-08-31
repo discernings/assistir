@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120E0C">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Seus títulos salvos.">
+<title>Meus salvos — Xyz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; background: none; }
+
+  :root{
+    --ink: #120E0C;
+    --ink-line: rgba(245,238,228,0.12);
+    --paper: #F5EEE4;
+    --paper-dim: #B8AA9C;
+    --marquee: #E7A33E;
+    --marquee-press: #D3922E;
+    --radius-card: 10px;
+  }
+
+  body{ background:#000; overflow-x:hidden; }
+  .app{
+    max-width:520px; margin:0 auto; min-height:100vh;
+    background:var(--ink); color:var(--paper);
+    font-family:'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (min-width:560px){
+    body{ background:#050403; }
+    .app{ border-left:1px solid rgba(245,238,228,0.06); border-right:1px solid rgba(245,238,228,0.06); box-shadow:0 0 70px rgba(0,0,0,0.55); }
+  }
+
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; gap:14px;
+    padding: calc(14px + env(safe-area-inset-top,0px)) 20px 14px;
+    background:rgba(18,14,12,0.85);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--ink-line);
+  }
+  .back-btn{
+    width:38px; height:38px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; background:rgba(245,238,228,0.06);
+    color:var(--paper); text-decoration:none;
+  }
+  .back-btn svg{ width:20px; height:20px; }
+  .back-btn:active{ background:rgba(245,238,228,0.14); }
+  .nav-title{ font-family:'Fraunces', Georgia, serif; font-weight:700; font-size:20px; }
+
+  .catalog-state{ padding:60px 24px; text-align:center; }
+  .catalog-state p{ color:var(--paper-dim); font-size:14.5px; line-height:1.6; margin:0 0 20px; max-width:38ch; margin-left:auto; margin-right:auto; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; border:none; border-radius:999px; padding:14px 22px;
+    font-weight:600; font-size:15px; font-family:inherit;
+    cursor:pointer; text-decoration:none;
+  }
+  .btn-primary{ background:var(--marquee); color:#1C1207; }
+  .btn-primary:active{ background:var(--marquee-press); }
+
+  .grid-container{ display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; padding:18px 20px 40px; }
+  @media (min-width:420px){ .grid-container{ grid-template-columns:repeat(3, 1fr); } }
+
+  .save-card{ position:relative; }
+  .poster{
+    display:flex; align-items:flex-end; width:100%; aspect-ratio:2/3;
+    border:none; padding:0; margin:0; border-radius:var(--radius-card);
+    position:relative; overflow:hidden; text-align:left; cursor:pointer;
+    background-color:#2A2540; background-size:cover; background-position:center;
+    transition:transform .15s ease;
+  }
+  .poster::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(120% 80% at 15% -10%, rgba(255,255,255,0.10), transparent 55%);
+    pointer-events:none;
+  }
+  .poster:active{ transform:scale(0.96); }
+  .poster-scrim{ display:block; width:100%; padding:8px 10px; background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 92%); }
+  .poster-title{ display:block; font-size:12.5px; font-weight:600; line-height:1.25; color:var(--paper); }
+  .remove-btn{
+    position:absolute; top:8px; right:8px; z-index:2;
+    width:26px; height:26px; border-radius:50%;
+    background:rgba(18,14,12,0.7); color:var(--paper);
+    display:flex; align-items:center; justify-content:center; border:none; cursor:pointer;
+  }
+  .remove-btn svg{ width:14px; height:14px; }
+  .remove-btn:active{ background:rgba(18,14,12,0.9); }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--marquee); outline-offset:2px; border-radius:6px; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="nav">
+    <a class="back-btn" href="index.html" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <span class="nav-title">Meus salvos</span>
+  </header>
+
+  <div id="loading-state" class="catalog-state"><p>Carregando…</p></div>
+
+  <div id="need-login-state" class="catalog-state" hidden>
+    <p>Entre na sua conta para ver seus salvos.</p>
+    <a class="btn btn-primary" href="login.html?redirect=baixados.html">Entrar</a>
+  </div>
+
+  <div id="need-premium-state" class="catalog-state" hidden>
+    <p>Salvar títulos é exclusivo para assinantes Premium.</p>
+    <a class="btn btn-primary" href="premium.html">Assinar Premium</a>
+  </div>
+
+  <div id="empty-state" class="catalog-state" hidden>
+    <p>Você ainda não salvou nenhum título. Abra os detalhes de um filme ou série e toque em "Salvar".</p>
+  </div>
+
+  <main id="grid-container" class="grid-container" hidden></main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  const SUPABASE_URL = 'https://uecyrwxajbdcrhnijlxv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_OUHFk8LAvyd2lfrmRkcK2A_EM6HD869';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const els = {
+    loadingState: document.getElementById('loading-state'),
+    needLoginState: document.getElementById('need-login-state'),
+    needPremiumState: document.getElementById('need-premium-state'),
+    emptyState: document.getElementById('empty-state'),
+    gridContainer: document.getElementById('grid-container'),
+  };
+
+  function criarCard(item) {
+    const filme = item.filmes || {};
+    const wrap = document.createElement('div');
+    wrap.className = 'save-card';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'poster';
+    if (filme.capa) { btn.style.backgroundImage = "url('" + filme.capa + "')"; }
+    btn.addEventListener('click', function () {
+      window.location.href = 'detalhes.html?id=' + encodeURIComponent(item.filme_id);
+    });
+    const scrim = document.createElement('span');
+    scrim.className = 'poster-scrim';
+    const title = document.createElement('span');
+    title.className = 'poster-title';
+    title.textContent = filme.titulo || 'Sem título';
+    scrim.appendChild(title);
+    btn.appendChild(scrim);
+    wrap.appendChild(btn);
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-btn';
+    removeBtn.setAttribute('aria-label', 'Remover dos salvos');
+    removeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+    removeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      supabase.from('downloads').delete().eq('user_id', item.user_id).eq('filme_id', item.filme_id).then(function (res) {
+        if (!res.error) { wrap.remove(); }
+      });
+    });
+    wrap.appendChild(removeBtn);
+
+    return wrap;
+  }
+
+  supabase.auth.getSession().then(function (sessionRes) {
+    const session = sessionRes.data.session;
+    if (!session) {
+      els.loadingState.hidden = true;
+      els.needLoginState.hidden = false;
+      return;
+    }
+    const uid = session.user.id;
+
+    supabase.from('perfis').select('premium').eq('user_id', uid).single().then(function (res) {
+      const souPremium = !!(res.data && res.data.premium === true);
+      if (!souPremium) {
+        els.loadingState.hidden = true;
+        els.needPremiumState.hidden = false;
+        return;
+      }
+
+      supabase.from('downloads').select('user_id, filme_id, filmes(*)').eq('user_id', uid).then(function (res2) {
+        els.loadingState.hidden = true;
+        if (res2.error || !res2.data || res2.data.length === 0) {
+          els.emptyState.hidden = false;
+          return;
+        }
+        const frag = document.createDocumentFragment();
+        res2.data.forEach(function (item) { frag.appendChild(criarCard(item)); });
+        els.gridContainer.appendChild(frag);
+        els.gridContainer.hidden = false;
+      });
+    });
+  });
+</script>
+</body>
+</html>

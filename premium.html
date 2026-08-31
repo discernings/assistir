@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120E0C">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Assine o plano Premium.">
+<title>Premium — Xyz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  :root{
+    --ink: #120E0C;
+    --ink-line: rgba(245,238,228,0.12);
+    --paper: #F5EEE4;
+    --paper-dim: #B8AA9C;
+    --paper-faint: #9C8F80;
+    --marquee: #E7A33E;
+    --marquee-press: #D3922E;
+    --danger: #E17389;
+  }
+
+  body{ background:#000; overflow-x:hidden; }
+  .app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding:24px 20px 60px;
+  }
+  @media (min-width:560px){
+    body{ background:#050403; }
+    .app{
+      border-left:1px solid rgba(245,238,228,0.06);
+      border-right:1px solid rgba(245,238,228,0.06);
+      box-shadow:0 0 70px rgba(0,0,0,0.55);
+    }
+  }
+
+  .brand-row{ text-align:center; margin-bottom:32px; }
+  .brand{ font-family:'Fraunces', Georgia, serif; font-weight:700; font-size:26px; color:var(--marquee); text-decoration:none; }
+
+  .centered-state{ text-align:center; padding-top:40px; }
+  .account-text{ font-size:15px; line-height:1.6; color:var(--paper-dim); margin:0 0 24px; }
+
+  /* ---------- Cartão do plano ---------- */
+  .plan-card{
+    background:rgba(245,238,228,0.05);
+    border:1px solid var(--ink-line);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:24px;
+  }
+  .plan-name{ font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:22px; margin:0 0 6px; }
+  .plan-price{ font-size:28px; font-weight:700; color:var(--marquee); margin:0 0 18px; }
+  .plan-price span{ font-size:14px; color:var(--paper-dim); font-weight:400; }
+  .plan-benefits{ list-style:none; margin:0; padding:0; }
+  .plan-benefits li{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:14.5px; color:var(--paper-dim);
+    padding:10px 0;
+    border-top:1px solid var(--ink-line);
+  }
+  .plan-benefits li:first-child{ border-top:none; padding-top:0; }
+  .plan-benefits svg{ flex:0 0 auto; width:18px; height:18px; color:var(--marquee); margin-top:1px; }
+
+  /* ---------- Passos de pagamento ---------- */
+  .section-label{ font-size:13px; color:var(--paper-dim); margin:0 0 10px; }
+  .payment-steps{ margin:0 0 6px; padding:0; list-style:none; counter-reset:step; }
+  .payment-steps li{
+    counter-increment:step;
+    display:flex; gap:12px; align-items:flex-start;
+    font-size:14.5px; color:var(--paper-dim);
+    padding:8px 0; line-height:1.5;
+  }
+  .payment-steps li::before{
+    content:counter(step);
+    flex:0 0 auto; width:22px; height:22px;
+    border-radius:50%;
+    background:rgba(245,238,228,0.1); color:var(--paper);
+    font-size:12px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pix-key{
+    display:block;
+    background:rgba(245,238,228,0.06);
+    border:1px solid var(--ink-line);
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:'SFMono-Regular', Consolas, monospace;
+    font-size:14px;
+    color:var(--paper);
+    margin:6px 0 24px;
+    word-break:break-all;
+  }
+
+  /* ---------- Botões ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%;
+    border:none; border-radius:999px;
+    padding:14px 22px;
+    font-weight:600; font-size:15px;
+    font-family:inherit;
+    cursor:pointer; text-decoration:none;
+  }
+  .btn-primary{ background:var(--marquee); color:#1C1207; }
+  .btn-primary:active{ background:var(--marquee-press); }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; }
+  .btn-secondary{ background:rgba(245,238,228,0.12); color:var(--paper); }
+  .btn-secondary:active{ background:rgba(245,238,228,0.2); }
+
+  .form-error{
+    font-size:13.5px; line-height:1.5;
+    color:var(--danger);
+    background:rgba(225,115,137,0.1);
+    border:1px solid rgba(225,115,137,0.3);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:0 0 16px;
+  }
+
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--marquee); outline-offset:2px; border-radius:6px; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="brand-row"><a class="brand" href="index.html">Xyz</a></div>
+
+  <div id="loading-state" class="centered-state">
+    <p class="account-text">Carregando…</p>
+  </div>
+
+  <div id="need-login-state" class="centered-state" hidden>
+    <p class="account-text">Entre na sua conta para assinar o Premium.</p>
+    <a id="login-cta" class="btn btn-primary" href="login.html">Entrar</a>
+  </div>
+
+  <div id="already-premium-state" class="centered-state" hidden>
+    <p class="account-text">Você já é Premium ✨ Aproveite o catálogo completo.</p>
+    <a id="back-link-premium" class="btn btn-primary" href="index.html">Voltar</a>
+  </div>
+
+  <div id="pending-state" class="centered-state" hidden>
+    <p class="account-text">Sua solicitação está em análise. Você recebe o acesso Premium assim que confirmarmos o pagamento — normalmente em algumas horas.</p>
+    <a class="btn btn-secondary" href="index.html">Voltar para o início</a>
+  </div>
+
+  <div id="offer-state" hidden>
+    <div class="plan-card">
+      <p class="plan-name">Xyz Premium</p>
+      <p class="plan-price">R$ 19,90 <span>/ mês</span></p>
+      <ul class="plan-benefits">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+          Catálogo completo, incluindo títulos exclusivos
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+          Continue assistindo em qualquer aparelho
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+          Cancele quando quiser
+        </li>
+      </ul>
+    </div>
+
+    <p class="section-label">Como assinar</p>
+    <ol class="payment-steps">
+      <li>Faça um PIX de R$ 19,90 para a chave abaixo</li>
+      <li>Toque em "Já paguei" e aguarde a confirmação</li>
+      <li>Seu acesso é liberado manualmente em algumas horas</li>
+    </ol>
+    <code class="pix-key" id="pix-key">SUA_CHAVE_PIX_AQUI</code>
+
+    <p id="offer-error" class="form-error" hidden></p>
+    <button id="request-btn" type="button" class="btn btn-primary">Já paguei, solicitar liberação</button>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  const SUPABASE_URL = 'https://uecyrwxajbdcrhnijlxv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_OUHFk8LAvyd2lfrmRkcK2A_EM6HD869';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  /* Como funciona (sem gateway de pagamento):
+     1) O usuário clica em "Já paguei" e isso grava um pedido na tabela
+        solicitacoes_premium: { user_id, filme_id, status:"pendente", solicitado_em }
+     2) Você (admin) confere o pagamento fora do site (ex: PIX) e, no
+        painel do Supabase (Table Editor > perfis), edita manualmente
+        a linha do usuário e marca premium = true.
+     3) Na próxima vez que o usuário abrir o site, ele já aparece Premium.
+
+     A tabela "perfis" só pode ser lida pelo próprio usuário (RLS) —
+     o site nunca escreve "premium" sozinho, só você pelo painel.    */
+
+  const params = new URLSearchParams(window.location.search);
+  const filmeId = params.get('id');
+
+  const els = {
+    loadingState: document.getElementById('loading-state'),
+    needLoginState: document.getElementById('need-login-state'),
+    loginCta: document.getElementById('login-cta'),
+    alreadyPremiumState: document.getElementById('already-premium-state'),
+    backLinkPremium: document.getElementById('back-link-premium'),
+    pendingState: document.getElementById('pending-state'),
+    offerState: document.getElementById('offer-state'),
+    offerError: document.getElementById('offer-error'),
+    requestBtn: document.getElementById('request-btn'),
+  };
+
+  function esconderTudo() {
+    els.loadingState.hidden = true;
+    els.needLoginState.hidden = true;
+    els.alreadyPremiumState.hidden = true;
+    els.pendingState.hidden = true;
+    els.offerState.hidden = true;
+  }
+
+  function mostrarErroOferta(msg) {
+    els.offerError.textContent = msg;
+    els.offerError.hidden = false;
+  }
+
+  const redirectDepois = 'premium.html' + (filmeId ? ('?id=' + encodeURIComponent(filmeId)) : '');
+  els.loginCta.href = 'login.html?redirect=' + encodeURIComponent(redirectDepois);
+  els.backLinkPremium.href = filmeId ? ('detalhes.html?id=' + encodeURIComponent(filmeId)) : 'index.html';
+
+  function verificarSolicitacaoPendente(user) {
+    supabase.from('solicitacoes_premium').select('*').eq('user_id', user.id).maybeSingle()
+      .then(function (res) {
+        if (res.data && res.data.status === 'pendente') {
+          els.pendingState.hidden = false;
+        } else {
+          mostrarOferta(user);
+        }
+      }).catch(function () { mostrarOferta(user); });
+  }
+
+  function mostrarOferta(user) {
+    els.offerState.hidden = false;
+    els.requestBtn.onclick = function () {
+      els.requestBtn.disabled = true;
+      els.requestBtn.textContent = 'Enviando…';
+      supabase.from('solicitacoes_premium').upsert({
+        user_id: user.id,
+        filme_id: filmeId || null,
+        status: 'pendente',
+        solicitado_em: new Date().toISOString()
+      }).then(function (res) {
+        if (res.error) {
+          console.error(res.error);
+          mostrarErroOferta('Não foi possível enviar sua solicitação agora. Tente novamente.');
+          els.requestBtn.disabled = false;
+          els.requestBtn.textContent = 'Já paguei, solicitar liberação';
+          return;
+        }
+        els.offerState.hidden = true;
+        els.pendingState.hidden = false;
+      });
+    };
+  }
+
+  supabase.auth.getSession().then(function (sessionRes) {
+    esconderTudo();
+    const session = sessionRes.data.session;
+
+    if (!session) {
+      els.needLoginState.hidden = false;
+      return;
+    }
+    const user = session.user;
+
+    supabase.from('perfis').select('premium').eq('user_id', user.id).single().then(function (res) {
+      const souPremium = !!(res.data && res.data.premium === true);
+      if (souPremium) {
+        els.alreadyPremiumState.hidden = false;
+        return;
+      }
+      verificarSolicitacaoPendente(user);
+    }).catch(function () {
+      verificarSolicitacaoPendente(user);
+    });
+  });
+</script>
+</body>
+</html>

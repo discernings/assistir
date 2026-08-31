@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120E0C">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Entrar ou criar conta na Xyz.">
+<title>Entrar — Xyz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  :root{
+    --ink: #120E0C;
+    --ink-line: rgba(245,238,228,0.12);
+    --paper: #F5EEE4;
+    --paper-dim: #B8AA9C;
+    --paper-faint: #9C8F80;
+    --marquee: #E7A33E;
+    --marquee-press: #D3922E;
+    --danger: #E17389;
+  }
+
+  body{ background:#000; overflow-x:hidden; }
+  .app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display:flex;
+    align-items:center;
+    padding:24px 20px;
+  }
+  @media (min-width:560px){
+    body{ background:#050403; }
+    .app{
+      border-left:1px solid rgba(245,238,228,0.06);
+      border-right:1px solid rgba(245,238,228,0.06);
+      box-shadow:0 0 70px rgba(0,0,0,0.55);
+    }
+  }
+
+  .auth-card{ width:100%; }
+  .brand-row{ text-align:center; margin-bottom:36px; }
+  .brand{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:700;
+    font-size:26px;
+    color:var(--marquee);
+    text-decoration:none;
+  }
+
+  .loading-state{ text-align:center; color:var(--paper-dim); font-size:14.5px; }
+
+  /* ---------- Abas Entrar / Criar conta ---------- */
+  .tabs{
+    display:flex;
+    background:rgba(245,238,228,0.06);
+    border-radius:999px;
+    padding:4px;
+    margin-bottom:28px;
+  }
+  .tab-btn{
+    flex:1;
+    border:none;
+    background:transparent;
+    color:var(--paper-dim);
+    padding:10px;
+    border-radius:999px;
+    font-family:inherit;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .tab-btn--active{ background:var(--marquee); color:#1C1207; }
+
+  /* ---------- Campos ---------- */
+  .field{ margin-bottom:18px; }
+  .field-label{ display:block; font-size:13px; color:var(--paper-dim); margin-bottom:6px; }
+  .field input{
+    width:100%;
+    background:rgba(245,238,228,0.06);
+    border:1px solid var(--ink-line);
+    border-radius:10px;
+    padding:13px 14px;
+    font-size:15px;
+    color:var(--paper);
+    font-family:inherit;
+    transition:border-color .15s ease;
+  }
+  .field input:focus{ outline:none; border-color:var(--marquee); }
+  .field-hint{ font-size:12.5px; color:var(--paper-faint); margin:6px 0 0; }
+
+  .password-wrap{ position:relative; }
+  .password-wrap input{ padding-right:44px; }
+  .toggle-password{
+    position:absolute; right:6px; top:50%; transform:translateY(-50%);
+    width:32px; height:32px;
+    display:flex; align-items:center; justify-content:center;
+    border:none; background:transparent;
+    color:var(--paper-faint);
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .toggle-password svg{ width:18px; height:18px; }
+
+  /* ---------- Botões ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%;
+    border:none; border-radius:999px;
+    padding:14px 22px;
+    font-weight:600; font-size:15px;
+    font-family:inherit;
+    cursor:pointer; text-decoration:none;
+  }
+  .btn-primary{ background:var(--marquee); color:#1C1207; }
+  .btn-primary:active{ background:var(--marquee-press); }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; }
+  .btn-secondary{ background:rgba(245,238,228,0.12); color:var(--paper); margin-top:10px; }
+  .btn-secondary:active{ background:rgba(245,238,228,0.2); }
+
+  /* ---------- Erro ---------- */
+  .form-error{
+    font-size:13.5px; line-height:1.5;
+    color:var(--danger);
+    background:rgba(225,115,137,0.1);
+    border:1px solid rgba(225,115,137,0.3);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:0 0 16px;
+  }
+
+  /* ---------- Conta logada ---------- */
+  .account-text{ font-size:15px; line-height:1.6; color:var(--paper-dim); text-align:center; margin:0 0 24px; }
+  .account-text strong{ color:var(--paper); }
+
+  /* ---------- Acessibilidade ---------- */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--marquee);
+    outline-offset:2px;
+    border-radius:6px;
+  }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="auth-card">
+
+    <div class="brand-row">
+      <a class="brand" href="index.html">Xyz</a>
+    </div>
+
+    <div id="loading-state" class="loading-state">Carregando…</div>
+
+    <!-- Formulário: entrar ou criar conta -->
+    <div id="form-state" hidden>
+      <div class="tabs" role="tablist">
+        <button type="button" id="tab-entrar" class="tab-btn tab-btn--active" role="tab" aria-selected="true">Entrar</button>
+        <button type="button" id="tab-criar" class="tab-btn" role="tab" aria-selected="false">Criar conta</button>
+      </div>
+
+      <form id="auth-form">
+        <div class="field">
+          <label class="field-label" for="email">E-mail</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="password">Senha</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" required minlength="6" autocomplete="current-password">
+            <button type="button" id="toggle-password" class="toggle-password" aria-label="Mostrar senha">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line id="eye-slash" x1="3" y1="3" x2="21" y2="21" hidden></line>
+              </svg>
+            </button>
+          </div>
+          <p id="password-hint" class="field-hint" hidden>Use pelo menos 6 caracteres.</p>
+        </div>
+
+        <p id="form-error" class="form-error" hidden></p>
+
+        <button type="submit" id="submit-btn" class="btn btn-primary">Entrar</button>
+      </form>
+    </div>
+
+    <!-- Já logado -->
+    <div id="account-state" hidden>
+      <p class="account-text">Você está conectado como <strong id="account-email"></strong>.</p>
+      <p class="account-text">Plano atual: <strong id="account-plan">Gratuito</strong></p>
+      <a id="continue-link" class="btn btn-primary" href="index.html">Continuar</a>
+      <a id="premium-cta" class="btn btn-secondary" href="premium.html" hidden>Assinar Premium</a>
+      <button id="logout-btn" type="button" class="btn btn-secondary">Sair</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  const SUPABASE_URL = 'https://uecyrwxajbdcrhnijlxv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_OUHFk8LAvyd2lfrmRkcK2A_EM6HD869';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const els = {
+    loadingState: document.getElementById('loading-state'),
+    formState: document.getElementById('form-state'),
+    accountState: document.getElementById('account-state'),
+    accountEmail: document.getElementById('account-email'),
+    accountPlan: document.getElementById('account-plan'),
+    premiumCta: document.getElementById('premium-cta'),
+    continueLink: document.getElementById('continue-link'),
+    logoutBtn: document.getElementById('logout-btn'),
+    tabEntrar: document.getElementById('tab-entrar'),
+    tabCriar: document.getElementById('tab-criar'),
+    form: document.getElementById('auth-form'),
+    email: document.getElementById('email'),
+    password: document.getElementById('password'),
+    passwordHint: document.getElementById('password-hint'),
+    togglePassword: document.getElementById('toggle-password'),
+    eyeSlash: document.getElementById('eye-slash'),
+    formError: document.getElementById('form-error'),
+    submitBtn: document.getElementById('submit-btn'),
+  };
+
+  // evita redirecionamento aberto: só aceita caminhos locais
+  function redirecionamentoSeguro(valor) {
+    if (!valor) return 'index.html';
+    if (/^https?:\/\//i.test(valor) || valor.startsWith('//')) return 'index.html';
+    return valor;
+  }
+  const params = new URLSearchParams(window.location.search);
+  const redirectTo = redirecionamentoSeguro(params.get('redirect'));
+
+  let modo = 'entrar';
+  function setModo(novoModo) {
+    modo = novoModo;
+    els.tabEntrar.classList.toggle('tab-btn--active', modo === 'entrar');
+    els.tabEntrar.setAttribute('aria-selected', modo === 'entrar');
+    els.tabCriar.classList.toggle('tab-btn--active', modo === 'criar');
+    els.tabCriar.setAttribute('aria-selected', modo === 'criar');
+    els.submitBtn.textContent = modo === 'entrar' ? 'Entrar' : 'Criar conta';
+    els.password.autocomplete = modo === 'entrar' ? 'current-password' : 'new-password';
+    els.passwordHint.hidden = modo !== 'criar';
+    esconderErro();
+  }
+  els.tabEntrar.addEventListener('click', function () { setModo('entrar'); });
+  els.tabCriar.addEventListener('click', function () { setModo('criar'); });
+
+  els.togglePassword.addEventListener('click', function () {
+    const mostrando = els.password.type === 'text';
+    els.password.type = mostrando ? 'password' : 'text';
+    els.eyeSlash.hidden = mostrando;
+    els.togglePassword.setAttribute('aria-label', mostrando ? 'Mostrar senha' : 'Ocultar senha');
+  });
+
+  function mostrarErro(msg) { els.formError.textContent = msg; els.formError.hidden = false; }
+  function esconderErro() { els.formError.hidden = true; }
+
+  function mensagemErro(error) {
+    const msg = (error && error.message) || '';
+    if (/already registered|already exists/i.test(msg)) return 'Esse e-mail já está cadastrado. Tente entrar.';
+    if (/invalid login credentials/i.test(msg)) return 'E-mail ou senha incorretos.';
+    if (/password should be at least/i.test(msg)) return 'A senha precisa ter pelo menos 6 caracteres.';
+    if (/rate limit/i.test(msg)) return 'Muitas tentativas. Tente novamente em alguns minutos.';
+    if (/network/i.test(msg)) return 'Falha de conexão. Verifique sua internet.';
+    return msg || 'Não foi possível concluir. Tente novamente.';
+  }
+
+  function mostrarConta(user) {
+    els.formState.hidden = true;
+    els.accountState.hidden = false;
+    els.accountEmail.textContent = user.email || '';
+    els.continueLink.href = redirectTo;
+
+    supabase.from('perfis').select('premium').eq('user_id', user.id).single().then(function (res) {
+      const souPremium = !!(res.data && res.data.premium === true);
+      els.accountPlan.textContent = souPremium ? 'Premium ✨' : 'Gratuito';
+      els.premiumCta.hidden = souPremium;
+    }).catch(function () {
+      els.accountPlan.textContent = 'Gratuito';
+      els.premiumCta.hidden = false;
+    });
+  }
+
+  function mostrarFormulario() {
+    els.accountState.hidden = true;
+    els.formState.hidden = false;
+  }
+
+  els.form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    esconderErro();
+    const email = els.email.value.trim();
+    const senha = els.password.value;
+
+    els.submitBtn.disabled = true;
+    const textoOriginal = els.submitBtn.textContent;
+    els.submitBtn.textContent = modo === 'entrar' ? 'Entrando…' : 'Criando conta…';
+
+    const acao = modo === 'entrar'
+      ? supabase.auth.signInWithPassword({ email: email, password: senha })
+      : supabase.auth.signUp({ email: email, password: senha });
+
+    acao.then(function (res) {
+      if (res.error) {
+        mostrarErro(mensagemErro(res.error));
+        els.submitBtn.disabled = false;
+        els.submitBtn.textContent = textoOriginal;
+        return;
+      }
+      window.location.href = redirectTo;
+    });
+  });
+
+  els.logoutBtn.addEventListener('click', function () {
+    supabase.auth.signOut().then(function () {
+      mostrarFormulario();
+    });
+  });
+
+  els.loadingState.hidden = false;
+  supabase.auth.getSession().then(function (sessionRes) {
+    els.loadingState.hidden = true;
+    const session = sessionRes.data.session;
+    if (session) {
+      mostrarConta(session.user);
+    } else {
+      mostrarFormulario();
+    }
+  });
+</script>
+</body>
+</html>
